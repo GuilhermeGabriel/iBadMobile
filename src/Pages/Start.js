@@ -3,12 +3,13 @@ import { View, Text, StyleSheet } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 
-const Pages = () => {
+const Pages = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>iBad</Text>
       <Text style={styles.description}>Encontre pessoas com a mesma tristeza que você</Text>
       <RectButton
+        onPress={() => navigation.navigate('Home')}
         rippleColor='#fff'
         style={styles.button}>
         <Feather name='chevron-right' color='#fff' size={24} />
