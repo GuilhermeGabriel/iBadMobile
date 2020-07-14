@@ -8,7 +8,7 @@ import api from '../services/api';
 
 const AddPost = ({ navigation }) => {
   const [body, setBody] = useState('');
-  const [type, setType] = useState('todos');
+  const [type, setType] = useState('desabafo');
 
   async function onSubmit(type) {
     if (body === '') {
@@ -16,9 +16,10 @@ const AddPost = ({ navigation }) => {
     }
 
     await api.post('posts', {
-      user: 'id123',
+      user: 'aa',
       body,
-      type
+      type,
+      color: '#000'
     });
 
     ToastAndroid.show('Postando...', ToastAndroid.SHORT);
@@ -38,7 +39,7 @@ const AddPost = ({ navigation }) => {
               setType(itemValue);
             }
             }>
-            <Picker.Item label="Todos" value="todos" />
+            <Picker.Item label="Desabafo" value="desabafo" />
             <Picker.Item label="Conselhos" value="conselhos" />
             <Picker.Item label="Amor" value="amor" />
             <Picker.Item label="Dinheiro" value="dinheiro" />

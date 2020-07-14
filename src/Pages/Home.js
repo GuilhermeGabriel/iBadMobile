@@ -43,6 +43,7 @@ const Home = ({ navigation }) => {
             }
             }>
             <Picker.Item label="Todos" value="todos" />
+            <Picker.Item label="Desabafo" value="desabafo" />
             <Picker.Item label="Conselhos" value="conselhos" />
             <Picker.Item label="Amor" value="amor" />
             <Picker.Item label="Dinheiro" value="dinheiro" />
@@ -57,7 +58,7 @@ const Home = ({ navigation }) => {
           <RectButton
             style={styles.icon}
             rippleColor="#ccc"
-            onPress={() => submit(state)}>
+            onPress={() => navigation.navigate('Chats')}>
             <Feather name='send' size={20} />
           </RectButton>
         </View>
@@ -73,7 +74,7 @@ const Home = ({ navigation }) => {
         <ActivityIndicator
           style={{ transform: [{ translateY: Dimensions.get('window').height / 2 }] }}
           size={54}
-          color="#0000ff" />
+          color="#000" />
       }
       <RectButton
         style={styles.addPost}
@@ -110,9 +111,10 @@ const styles = StyleSheet.create({
   addPost: {
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
+    top: Dimensions.get('window').height - 60,
     transform: [
-      { translateY: -180 },
-      { translateX: -8 }
+      { translateX: -24 }
     ],
     alignSelf: 'flex-end',
     width: 60,
