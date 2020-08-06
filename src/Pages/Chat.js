@@ -1,7 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import api from '../services/api';
 
-const Chat = () => {
+const Chat = ({ route }) => {
+  const [idConversation, setIdConversation] = useState('');
+
+  useEffect(() => {
+    async function getMessages() {
+      const { user_id_db_id, user_id } = route.params;
+
+      const response = await api.get('/conversation', {
+        params: {
+          google_id: user._id,
+          user_id
+        }
+      });
+
+      setIdConversation(response.data[0]._id)
+    }
+    getMessages();
+  }, []);
+
   return (
     <View style={styles.container}>
       {/*Header*/}

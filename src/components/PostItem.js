@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ToastAndroid } from 'react-native';
 import { Feather, AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../services/api';
@@ -9,7 +9,18 @@ const PostItem = ({ data, navigation }) => {
 
   async function handlePress(type) {
     if (type === 'send') {
-      navigation.navigate('Chat', { user_id_db_id: data.user_id_db_id });
+      let user = await AsyncStorage.getItem('@user');
+      user = JSON.parse(user);
+
+      if (data.user_id_db_id === user._id) {
+        ToastAndroid.show('Você não pode conversar com você mesmo!', ToastAndroid.SHORT);
+        return;
+      }
+
+      navigation.navigate('Chat', {
+        user_id_db_id: data.user_id_db_id,
+        user_id: user._id
+      });
     }
 
     if (type === 'heart') {
