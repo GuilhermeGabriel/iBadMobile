@@ -9,12 +9,16 @@
   },
   "dependencies": {
     "@expo-google-fonts/roboto": "^0.1.0",
+<<<<<<< HEAD
     "@react-native-community/async-storage": "~1.11.0",
+=======
+>>>>>>> 347ac53842dad2d7035b8ec0a710f9c25ca71a0f
     "@react-native-community/masked-view": "0.1.10",
     "@react-native-community/picker": "1.6.0",
     "@react-navigation/native": "^5.6.1",
     "@react-navigation/stack": "^5.6.2",
     "axios": "^0.19.2",
+<<<<<<< HEAD
     "expo": "^38.0.0",
     "expo-font": "~8.2.1",
     "expo-google-app-auth": "^8.1.2",
@@ -26,12 +30,32 @@
     "react-native-gesture-handler": "~1.6.0",
     "react-native-reanimated": "~1.9.0",
     "react-native-safe-area-context": "~3.0.7",
+=======
+    "expo": "~38.0.1",
+    "expo-font": "~8.2.1",
+    "expo-google-sign-in": "~8.2.1",
+    "expo-status-bar": "^1.0.0",
+    "firebase": "7.9.0",
+    "react": "~16.11.0",
+    "react-dom": "~16.11.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.0.tar.gz",
+    "react-native-gesture-handler": "~1.6.0",
+    "react-native-reanimated": "~1.9.0",
+    "react-native-safe-area-context": "3.0.2",
+>>>>>>> 347ac53842dad2d7035b8ec0a710f9c25ca71a0f
     "react-native-screens": "~2.9.0",
     "react-native-web": "~0.11.7"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
+<<<<<<< HEAD
     "babel-preset-expo": "^8.2.3"
   },
   "private": true
 }
+=======
+    "babel-preset-expo": "~8.1.0"
+  },
+  "private": true
+}
+>>>>>>> 347ac53842dad2d7035b8ec0a710f9c25ca71a0f

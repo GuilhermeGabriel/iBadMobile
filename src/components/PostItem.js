@@ -14,7 +14,6 @@ const PostItem = ({ body, user }) => {
       <View style={styles.actionsContainer}>
         <Text style={styles.user}>{user}</Text>
         <Feather style={styles.actionItem} name='send' color='#fff' size={24}></Feather>
-
         <Feather style={styles.actionItem} name='heart' color='#fff' size={24}></Feather>
 
       </View >
