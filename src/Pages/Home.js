@@ -79,8 +79,13 @@ const Home = ({ navigation }) => {
             data={posts}
             onEndReached={() => getData()}
             onEndReachedThreshold={0.1}
-            renderItem={({ item }) => <PostItem body={item.body} user={item.user} />}
-            keyExtractor={item => item._id + Math.random(0, 1000)}
+            renderItem={({ item }) =>
+              <PostItem
+                data={item}
+                navigation={navigation}
+              />
+            }
+            keyExtractor={item => item._id}
           />
           :
           <ActivityIndicator
