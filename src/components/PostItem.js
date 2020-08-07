@@ -19,7 +19,7 @@ const PostItem = ({ data, navigation }) => {
 
       navigation.navigate('Chat', {
         user_id_db_id: data.user_id_db_id,
-        user_id: user._id
+        user_google_id: user.id
       });
     }
 

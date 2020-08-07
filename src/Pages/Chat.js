@@ -1,26 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ToastAndroid } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../services/api';
 
 const Chat = ({ route }) => {
-  const [idConversation, setIdConversation] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
 
   useEffect(() => {
     async function getMessages() {
-      const { user_id_db_id, user_id } = route.params;
+      const { user_id_db_id, user_google_id } = route.params;
 
-      const response = await api.get('/conversation', {
+      const response_conversation = await api.get('/conversation', {
         params: {
-          google_id: user._id,
-          user_id
+          google_id: user_google_id,
+          user_id: user_id_db_id
         }
       });
 
-      setIdConversation(response.data[0]._id)
+      const conversationId = response_conversation.data[0]._id
+      if (!conversationId) return;
+
+      const response_messages = await api.get('/messages', {
+        params: {
+          google_id: "gi005",
+          conversationId: "5f2c98b4fdd3d357a84cbff0"
+        }
+      });
+
+      console.log(response_messages.data);
     }
     getMessages();
   }, []);
+
+  async function sendMessage() {
+    if (input !== '') {
+      const { user_id_db_id, user_google_id } = route.params;
+      const response = await api.post('/messages', {
+        google_id: user_google_id,
+        user_id: user_id_db_id,
+        message: input
+      });
+
+
+      setInput('');
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -29,10 +56,20 @@ const Chat = ({ route }) => {
         <Text style={styles.headerText}>@Fulano</Text>
       </View>
 
-      <TextInput
-        style={styles.input}
-        placeholderTextColor='#797979'
-        placeholder='Escreva aqui...' />
+      <View style={styles.containerInput}>
+        <TextInput
+          style={styles.input}
+          value={input}
+          onChangeText={(txt) => { setInput(txt) }}
+          placeholderTextColor='#797979'
+          placeholder='Escreva aqui...' />
+
+        <RectButton
+          style={styles.send}
+          onPress={() => sendMessage()}>
+          <Ionicons name="md-send" size={24} color="black" />
+        </RectButton>
+      </View>
     </View>
   );
 }
@@ -55,12 +92,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Roboto_700Bold'
   },
+  containerInput: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   input: {
+    flex: 1,
     fontWeight: 'bold',
     borderRadius: 16,
     margin: 16,
     padding: 12,
     backgroundColor: '#e1e1e1'
+  },
+  send: {
+    padding: 16,
+    marginRight: 8
   }
 });
 
