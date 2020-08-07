@@ -1,17 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, ToastAndroid } from 'react-native';
+import { View, Text, TextInput, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../services/api';
+import MessageItem from '../components/MessageItem';
 
 const Chat = ({ route }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const [myUser, setMyuser] = useState('');
+
+  useEffect(() => {
+    async function getUser() {
+      let user = await AsyncStorage.getItem('@user');
+      user = JSON.parse(user);
+      setMyuser(user);
+    }
+
+    getUser();
+  }, []);
 
   useEffect(() => {
     async function getMessages() {
       const { user_id_db_id, user_google_id } = route.params;
+      console.log(route.params)
 
       const response_conversation = await api.get('/conversation', {
         params: {
@@ -25,12 +38,12 @@ const Chat = ({ route }) => {
 
       const response_messages = await api.get('/messages', {
         params: {
-          google_id: "gi005",
-          conversationId: "5f2c98b4fdd3d357a84cbff0"
+          google_id: user_google_id,
+          conversation_id: conversationId
         }
       });
 
-      console.log(response_messages.data);
+      setMessages(response_messages.data);
     }
     getMessages();
   }, []);
@@ -44,17 +57,36 @@ const Chat = ({ route }) => {
         message: input
       });
 
-
       setInput('');
     }
+  }
+
+  if (!myUser) {
+    return (
+      <View style={styles.containerIndicator}>
+        <ActivityIndicator size={48} color='#000' />
+      </View>
+    )
   }
 
   return (
     <View style={styles.container}>
       {/*Header*/}
       <View style={styles.header}>
-        <Text style={styles.headerText}>@Fulano</Text>
+        <Text style={styles.headerText}>@{route.params.username}</Text>
       </View>
+
+      <FlatList
+        style={styles.chatContainer}
+        keyExtractor={(item) => item._id}
+        data={messages}
+        renderItem={({ item }) =>
+          <MessageItem
+            position={(item.owner_id !== myUser._id) ? 'left' : 'right'}
+            data={item}
+          />
+        }
+      />
 
       <View style={styles.containerInput}>
         <TextInput
@@ -80,6 +112,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between'
   },
+  containerIndicator: {
+    flex: 1,
+    justifyContent: 'center'
+  },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -91,6 +127,8 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 16,
     fontFamily: 'Roboto_700Bold'
+  },
+  chatContainer: {
   },
   containerInput: {
     flexDirection: 'row',

@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 
-const ChatItem = ({ navigation }) => {
+const ChatItem = ({ navigation, data }) => {
+  useState(() => {
+    console.log(data)
+  }, []);
+
   return (
     <>
       <RectButton
-        onPress={() => navigation.navigate('Chat')}
+        onPress={() => navigation.navigate('Chat', {
+          user_id_db_id: data.user_id_db_id,
+          user_google_id: data.user_google_id,
+          username: data.username
+        })}
         rippleColor='#ccc'
         style={styles.container}>
         <View style={styles.nameMessageContainer}>
